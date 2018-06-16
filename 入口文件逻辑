@@ -1,0 +1,20 @@
+
+入口文件 web/index.php
+
+// 全局常量
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
+
+//composer自动加载文件
+require __DIR__ . '/../vendor/autoload.php';
+
+// Yii类 同时实例化容器$container
+require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
+
+//配置信息
+$config = require __DIR__ . '/../config/web.php';
+
+//运行应用，请求处理
+(new yii\web\Application($config))->run();
+
+
