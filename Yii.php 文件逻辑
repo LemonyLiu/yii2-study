@@ -1,0 +1,14 @@
+
+// Yii 类
+class Yii extends \yii\BaseYii
+{
+}
+
+// Yii 类的自动加载注册函数
+spl_autoload_register(['Yii', 'autoload'], true, true);
+
+// Yii 类映射数组
+Yii::$classMap = require __DIR__ . '/classes.php';
+
+// 实例化容器
+Yii::$container = new yii\di\Container();
