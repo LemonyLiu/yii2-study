@@ -6,3 +6,7 @@ Yii 类 提供两个非常重要的静态属性 $app，$container。
 
 $app 即 应用主体。
 $container 即 容器。
+
+
+
+
