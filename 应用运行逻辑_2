@@ -1,0 +1,84 @@
+
+/**
+ *
+ * 介绍 yii\base\Application
+ *
+ */
+ 
+ 根据上一篇的介绍，主要的逻辑在 __construct()
+ 
+ 源代码：
+ public function __construct($config = [])
+    {
+        // Yii 容器类的 $app 赋值。
+        Yii::$app = $this;
+        
+        // 不是很明确
+        static::setInstance($this);
+
+        $this->state = self::STATE_BEGIN;
+
+        // 预初始化，将$config 中的值初始化，一会看逻辑
+        $this->preInit($config);
+
+        // 注册 错误处理函数。
+        $this->registerErrorHandler($config);
+
+        // 初始化配置往下传
+        Component::__construct($config);
+    }
+    
+ preInit 函数 (引用传值)
+ 
+ public function preInit(&$config)
+    {
+        // 应用ID
+        if (!isset($config['id'])) {
+            throw new InvalidConfigException('The "id" configuration for the Application is required.');
+        }
+        // 应用保护目录，mvc 架构层目录
+        if (isset($config['basePath'])) {
+            $this->setBasePath($config['basePath']);
+            unset($config['basePath']);  // 清洗$config
+        } else {
+            throw new InvalidConfigException('The "basePath" configuration for the Application is required.');
+        }
+
+        if (isset($config['vendorPath'])) {
+            $this->setVendorPath($config['vendorPath']);
+            unset($config['vendorPath']); // 清洗$config
+        } else {
+            // set "@vendor"
+            $this->getVendorPath();
+        }
+        if (isset($config['runtimePath'])) {
+            $this->setRuntimePath($config['runtimePath']);
+            unset($config['runtimePath']);  // 清洗$config
+        } else {
+            // set "@runtime"
+            $this->getRuntimePath();
+        }
+
+        if (isset($config['timeZone'])) {
+            $this->setTimeZone($config['timeZone']);
+            unset($config['timeZone']); // 清洗$config
+        } elseif (!ini_get('date.timezone')) {
+            $this->setTimeZone('UTC');
+        }
+
+        // 这里可以开始注入到 container 容器
+        if (isset($config['container'])) {
+            $this->setContainer($config['container']);
+
+            unset($config['container']); // 清洗$config
+        }
+
+        // 核心组件 赋值到 $config['components']
+        foreach ($this->coreComponents() as $id => $component) {
+            if (!isset($config['components'][$id])) {
+                $config['components'][$id] = $component;
+            } elseif (is_array($config['components'][$id]) && !isset($config['components'][$id]['class'])) {
+                $config['components'][$id]['class'] = $component['class'];
+            }
+        }
+    }
