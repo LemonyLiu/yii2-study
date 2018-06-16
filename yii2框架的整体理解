@@ -1,0 +1,8 @@
+关于yii 框架自己的一些理解。
+
+通过yii.php 创建 Yii 类。Yii类 相当于整个框架的根容器。
+
+Yii 类 提供两个非常重要的静态属性 $app，$container。
+
+$app 即 应用主体。
+$container 即 容器。
