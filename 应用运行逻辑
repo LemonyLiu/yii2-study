@@ -1,0 +1,15 @@
+/**
+ *
+ * 对应入口文件 Application->run()
+ *
+ */
+ 
+ 1、实例化 Application
+ 
+ 继承关系：yii\web\Application -> yii\base\Application -> yii\base\module -> yii\di\ServiceLocator -> yii\base\Component -> yii\base\BaseObject
+ 
+ 这一步实际上做了很多的事情，对应于各个继承类的 __construct();
+ 
+ yii\base\Application
+ 
+ 
